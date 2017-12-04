@@ -13,6 +13,6 @@ BakTheBig, BIGm0, horstjens
  * riddleboxes
  * different monster types
  * weight system for items
- * potions
+ * health potions
  * navigation system
  
