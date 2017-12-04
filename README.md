@@ -3,7 +3,7 @@ adventure / rpg game made in python3 with easygui
 
 ## authors 
 
-BakTheBig, BIGm0
+BakTheBig, BIGm0, horstjens
 
 
 ## Features
@@ -12,7 +12,7 @@ BakTheBig, BIGm0
  * battle system
  * riddleboxes
  * different monster types
- * weight system
+ * weight system for items
  * potions
  * navigation system
  
