@@ -12,7 +12,7 @@ def battleround(attacker, defender):
     attack = random.choice(attacker.attacks)
     if d1 > attacker.base_attack:
         text += "{} fails to attack with {}\n".format(attacker.form, attack) 
-        text += "How embarassing....\n"
+        text += "how embarassing....\n"
         return text 
     text += "{} attacks with {}\n".format(attacker.form, attack)
     d2 = random.random()
@@ -31,14 +31,14 @@ def battleround(attacker, defender):
         if d3 <= slots[n]:
             zone = n
             break
-    text+= "One hit in {}\n".format(zone)
+    text+= "hit in {}\n".format(zone)
     damage = attacker.base_damage - defender.base_armour[zone]
-    text +="{} suffers {:.2f} damage and has {:.2f} HP left\n".format(
+    text +="{} suffers {:.2f} damage and has {:.2f} hp left\n".format(
            defender.form, damage, defender.hp - damage )
     defender.hp -= damage
     if defender.hp <= 0:
         text += "Victory for {}\n".format(attacker.form)
-        Game.log += "{} #{} kills {} #{}\n".format(
+        Game.log += "{} # {} kills {} #{}\n".format(
                      attacker.form, attacker.number,
                      defender.form, defender.number)
     return text
@@ -148,7 +148,7 @@ class Game():
         results = ""
         r = [m for m in Game.monsters.values() if m.number > 1 and m.room == self.room and m.hp > 0]
         for x in r:
-            results += "{} #{} with {} HP\n".format(x.form, x.number, x.hp)
+            results += "{} nr {} with {} hp\n".format(x.form, x.number, x.hp)
         return results
         
     def show_boxes(self):
@@ -156,14 +156,16 @@ class Game():
         r = [b for b in Game.boxes.values() if b.room == self.room]
         for x in r:
             results += "riddle box # {}\n".format(x.number)  
-        return results 
-        
+        return results
+
     def show_items(self):
+        """show items on the ground in this room"""
         text = "----- Items on the ground ---------\n"
         items = [i for i in Game.items.values() if i.room == self.room and i.carrier is None]
         for i in items:
             text += i.__repr__() + "\n"
         return text
+    
     
     def riddle(self):
         r = [b for b in Game.boxes.values() if b.room == self.room]
@@ -182,18 +184,18 @@ class Game():
         for i in items:
             text += i.__repr__() +"\n"
             mass += i.mass
-        text += "====== Total mass of backpack: {} kg ======\n".format(mass)
+        text += "====total mass of backpack: {} kg ====\n".format(mass)
         #text += "----- Items on the ground ---------\n"
         #items = [i for i in Game.items.values() if i.room == self.room and i.carrier is None]
         #for i in items:
         #    text += i.__repr__() + "\n"
-        text += self.show_items()
-        number = easygui.integerbox("Please enter number of item to use or to pick it up!\n"+
-                                    "Enter a negative number to drop an item!\n"+
+        text+=self.show_items()
+        number = easygui.integerbox("please enter number of item to use or pick up\n"+
+                                    "enter negative number to drop item\n"+
                                   text, lowerbound=-9999, upperbound=9999)
         if number is None:
             return None
-        keys = [k for k, v in Game.items.items() if v.carrier==1 or v.room == self.room] 
+        keys = [k for k, v in Game.items.items() if v.carrier==1 or v.room==self.room]
         if number in keys:
             return number
         if number < 0:
@@ -202,7 +204,7 @@ class Game():
         return None
     
     def fight(self):
-        sounds = ["Zack!", "Bumm!", "Krach!", "Autsch!", "Aua!", "Bammm!"]
+        sounds = ["Zack", "Bumm!", "Krach", "Autsch!", "Aua", "Bammm!"]
   
         
         enemies = [m for m in Game.monsters.values() if m.number > 1 and m.room == self.room and m.hp > 0]
@@ -246,31 +248,27 @@ class Game():
     
     def run(self):
         while self.player.hp >0:
-            text = "You are at {}.\n".format(self.room)
+            text = "you are in {}.\n".format(self.room)
             monsterstext = self.show_monsters()
             if monsterstext != "":
-                text += "\nThese monsters are here:\n{}\n".format(monsterstext)
+                text += "Here are these monsters:\n{}\n".format(monsterstext)
             boxestext = self.show_boxes()
             if boxestext != "":
-                text += "\nThese boxes are here:\n"
+                text += "\n---------\nhere are those boxes:\n"
                 text += boxestext
-            itemtext = self.show_items()
-            if itemtext != "":
-                text += "\n\nThese items are here:\n"
-                text += itemtext
-                
+            text +=self.show_items() 
             text += "\n\nWhere do you want to go?"
             rooms = Game.rooms[self.room]
             if monsterstext != "":
                 rooms.append("Fight")
             if boxestext != "":
-                rooms.append("Open box")
+                rooms.append("open box")
             #rooms.append("Navi")
             rooms.extend(("Navi","Inventory"))
-            status = "HP: {} XP: {}".format(self.player.hp, self.player.points)
+            status = "hp: {} xp: {}".format(self.player.hp, self.player.points)
            
             potions = [p for p in Game.items.values() if p.carrier == 1]
-            status += " Potions: {}".format(len(potions))
+            status += " potions: {}".format(len(potions))
            
            
             command = easygui.buttonbox(text, title=status, choices=rooms)
@@ -279,14 +277,14 @@ class Game():
             if monsterstext != "":
                 rooms.remove("Fight")
             if boxestext != "":
-                rooms.remove("Open box")
+                rooms.remove("open box")
             if command == "Navi":
                 self.navi()
                 continue
             if command == "Fight":
                 self.fight()
                 continue
-            if command == "Open box":
+            if command == "open box":
                 self.riddle()
                 continue
             if command == "Inventory":
@@ -299,24 +297,24 @@ class Game():
                         # pick up item
                         Game.items[x].room = None
                         Game.items[x].carrier = self.player.number
-                        easygui.msgbox("You have picked up an item. It is now in your inventory!")
+                        easygui.msgbox("you picked up an item. It is now in your inventory")
                     elif Game.items[x].carrier == self.player.number:
                         Game.items[x].use()
-                        easygui.msgbox("You used an item!")
+                        easygui.msgbox("you used an item")
                         for k in list(Game.items.keys()):
                             if Game.items[k].destroyed:
                                 del Game.items[k]
-                elif -x in Game.items:
+                if x is not None and -x in Game.items:
                     #print("found", -x)
                     Game.items[-x].carrier = None
                     Game.items[-x].room = self.room
-                    easygui.msgbox("You have dropped an item. It is now on the floor!")
+                    easygui.msgbox("you dropped an item. It is now on the floor")
                         
                 continue
             if self.room not in self.explored:
                 self.explored.append(self.room)
             self.room = command
-        easygui.textbox("Game over!", text=Game.log)    
+        easygui.textbox("Game over", text=Game.log)    
 
 
 class Item():
@@ -332,32 +330,66 @@ class Item():
         self.number = Item.number
         Game.items[self.number] = self
         self.destroyed = False
-        self.equipped = False 
-        self.mass = round(random.random(), 1)
+        self.equipped = False
+        self.mass = round(random.random(),1) 
         # TODO: Zufallsitem
-        self.text = random.choice(("a piece of dirt", "an old apple", "a little smelly bone", "a half-eaten skull", "a nice round pebble", "a half-eaten programmer", "a dead woman", "a dead man", "a dead child", "a killed troll", "a killed tiger"))
-        
+        self.text= random.choice(("apiece of dirt",
+                                  "an old apple",
+                                  "a half eaten skull",
+                                  "a nice round pebble",
+                                  "a little smelly bone"))
+                                  
+                                  
+                                  
     def __repr__(self):
-        text = "Item #{}: {} ({} kg)".format(self.number, self.text, self.mass)
+        text = "Item #{}: {} ({} kg) ".format(self.number,self.text,self.mass)
         return text
         
+class Weapon(Item):
+    
+    def __init__(self, room ="Wald", carrier="None",weapontype="Sword"):
+        Item.__init__(self,room,carrier)
+        self.weapontype = weapontype
+        self.quality = random.choice(("good","superior","average","bad"))
+        self.magicdamage = random.choice((None,None,None,None,
+                                            "Fire","Cold","Electricity"))
+        if weapontype == "Sword":
+            self.name = "Longsword"
+            self.mass = round(random.gauss(1.3,0.2),1)
+            self.length = round(random.gauss(1.02,0.12),1)
+            self.parry =round(random.gauss(0.4,0.05),3)
+            self.damagetype =["pierce","slash"]
+
+        elif weapontype == "Axe":
+            self.name = "Axe"
+            self.mass = round(random.gauss(
+            self.length =round(random.gauss
+            self.quality =random.choice((
+            self.magicdamage =random.choice((None,None,None,None,"Fire","Cold","Electricity"))
+            self.parry =
+            
+            #TODO spear
+        
+        
+            
+                                  
 class Potion(Item):
     
     def __init__(self, room="Wald", carrier=None, effect="Health", size="medium"):
         Item.__init__(self, room, carrier)
         self.effect = effect
         self.size = size
-        self.text = "Health potion"
-        if self.size == "small":
-            self.mass = round(random.gauss(0.25, 0.05), 1)
-        elif self.size == "medium":
-            self.mass = round(random.gauss(0.5, 0.1), 1)
-        elif self.size == "large":
-            self.mass = round(random.gauss(1, 0.2), 1)
-        
+        self.text = "healing potion"
+        if self.size =="small":
+            self.mass= 0.25
+        elif self.size =="medium":
+            self.mass=0.5
+        elif self.size =="large":
+            self.mass=1
+            
     def __repr__(self):
         text = "Item #{}: ".format(self.number)
-        text += "{} potion of {} ({} kg)".format(self.size, self.effect, self.mass)
+        text += "{} potion of {} ({} kg)".format(self.size, self.effect,self.mass)
         return text
         
     def use(self, drinker=1):
@@ -372,7 +404,7 @@ class Potion(Item):
             Game.monsters[drinker].hp += bonus
             if Game.monsters[drinker].hp > Game.monsters[drinker].max_hp:
                 Game.monsters[drinker].hp = Game.monsters[drinker].max_hp+0
-            easygui.msgbox("The {} potion gives you {} hp".format(
+            easygui.msgbox("The {} potion gives {} hp".format(
                            self.size, bonus))    
             self.destroyed = True
         
@@ -435,7 +467,7 @@ class Monster():
         self.st = random.randint(5,15)
         self.room = room 
         self.e  = random.randint(10,20)
-        self.form = random.choice(("Human", "Tiger", "Spider"))
+        self.form = random.choice(("human", "tiger", "spider"))
         # percentage of slot ... 60% body, 10% head etc
         # slot: [ percentage, armour, bonus_attack, bonus_defense, critical]
         self.slots = {"body":0.6, 
@@ -459,18 +491,18 @@ class Monster():
         
         
     def __repr__(self):
-        return "Monster #{} form: {}\n Strenght: {}\n Dexterity: {}\n HP: {}\n Energy: {}\n".format(self.number, self.form, self.st*"P", self.dex*"D", self.hp*"H", self.e*"e")
+        return "Monster # {} form: {}\n strenght : {}\n dexterity: {}\n hitpoints: {}\n energy   : {}\n".format(self.number, self.form, self.st*"P", self.dex*"D", self.hp*"H", self.e*"e")
         
 
 class Tiger(Monster):
     
     def __init__(self, room="Wald"):
         Monster.__init__(self, room)
-        self.form = "Tiger"
+        self.form = "tiger"
         self.hp = random.randint(20,30)
         self.dex = random.randint(10,15)
         self.st = random.randint(9,20)
-        self.e = random.randint(5,10)
+        self.e  = random.randint(5,10)
         self.attacks = ["slash", "bite", "jump attack"]
         self.slots = {"body":0.6, 
                       "legs":0.3,
@@ -492,11 +524,11 @@ class Spider(Monster):
     
     def __init__(self, room="Wald"):
         Monster.__init__(self, room)
-        self.form = "Spider"
+        self.form = "spider"
         self.hp = random.randint(1,5)
         self.dex = random.randint(20,30)
         self.st = 1
-        self.e = random.randint(10,15)
+        self.e  = random.randint(10,15)
         self.attacks = ["bite", "poison bite"]
         self.slots = {"body":0.4, 
                       "legs":0.5,
