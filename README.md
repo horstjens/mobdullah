@@ -1,3 +1,6 @@
 # mobdullah
 adventure / rpg game made in python3 with easygui
-authors: BakTheBig
+
+## authors 
+
+BakTheBig, BIGm0
