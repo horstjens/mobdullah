@@ -8,11 +8,11 @@ BakTheBig, BIGm0
 
 ## Features
 
- * random item system *
- * battle system *
- * riddleboxes *
- * diffrent monster types *
- * weight system *
- * potions *
- * navigation system *
+ * random item system
+ * battle system
+ * riddleboxes
+ * different monster types
+ * weight system
+ * potions
+ * navigation system
  
