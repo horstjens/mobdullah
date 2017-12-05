@@ -369,6 +369,7 @@ class Weapon(Item):
             self.parry =
             
             #TODO spear
+            #TODO warhammer
         
         
             
