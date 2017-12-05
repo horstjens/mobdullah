@@ -361,19 +361,26 @@ class Weapon(Item):
             self.damagetype =["pierce","slash"]
 
         elif weapontype == "Axe":
-            self.name = "Axe"
+            self.name = "BattleAxe"
             self.mass = round(random.gauss(
-            self.length =round(random.gauss
-            self.quality =random.choice((
-            self.magicdamage =random.choice((None,None,None,None,"Fire","Cold","Electricity"))
+            self.length = round(random.gauss(0.95, 0.183), 1)
             self.parry =
+            self.damagetype = ["slash", "blow"]
+        elif weapontype == "Mace":
+            self.name = "Mace"
+            self.mass = round(random.gauss(1.5, 0.2), 1)
+            self.length = round(random.gauss(1.2, 0.06), 1)
+            self.parry = 0
+            self.damagetype = ["stab", "slash"]
             
-            #TODO spear
-            #TODO warhammer
-        
-        
-            
-                                  
+        elif wepontype == "Spear":
+            self.name = 
+            self.mass = 
+            self.length = 
+            self.parry = 
+            self.damagetype =  
+                    
+                                                           
 class Potion(Item):
     
     def __init__(self, room="Wald", carrier=None, effect="Health", size="medium"):
