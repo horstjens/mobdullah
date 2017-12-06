@@ -372,13 +372,6 @@ class Weapon(Item):
             self.length = round(random.gauss(1.2, 0.06), 1)
             self.parry = 0
             self.damagetype = ["stab", "slash"]
-            
-        elif wepontype == "Spear":
-            self.name = 
-            self.mass = 
-            self.length = 
-            self.parry = 
-            self.damagetype =  
                     
                                                            
 class Potion(Item):
