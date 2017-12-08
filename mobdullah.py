@@ -372,6 +372,24 @@ class Weapon(Item):
             self.length = round(random.gauss(1.2, 0.06), 1)
             self.parry = 0
             self.damagetype = ["stab", "slash"]
+        elif weapontype == "Claymore":
+            self.name = "Claymore"
+            self.mass = 2.5
+            self.length = 1.4
+            self.parry = 0.1
+            self.damagetype = ["slash", "pierce", "blow"]
+        elif weapontype == "Zweihänder":
+            self.name = "Zweihänder"
+            self.mass = round(random.gauss(3.0, 0.33), 1)
+            self.length = round(random.gauss(1.7, 0.033), 1)
+            self.parry = 0
+            self.damagetype = ["slash", "pierce", "blow"]
+        elif weapontype == "Falchion":
+            self.name = "Falchion"
+            self.mass = round(random.gauss(1, 0.066), 1)
+            self.length = round(random.gauss(0.9, 0.033), 1)
+            self.parry = 0
+            self.damagetype = ["slash", "pierce", "blow"]
                     
                                                            
 class Potion(Item):
