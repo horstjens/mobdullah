@@ -260,15 +260,14 @@ class Game():
             if itemtext != "":
                 text += "\n\nThese items are here:\n"
                 text += itemtext
-                
+            rooms = []
             if monstercount == 0:    
-                pass
-            text += "\n\nWhere do you want to go?"
-            rooms = Game.rooms[self.room]
-            if monsterstext != "":
+                text += "\n\nWhere do you want to go?"
+                rooms = Game.rooms[self.room]
+                if boxestext != "":
+                    rooms.append("Open box")
+            else:
                 rooms.append("Fight")
-            if boxestext != "":
-                rooms.append("Open box")
             #rooms.append("Navi")
             rooms.extend(("Navi","Inventory"))
             status = "HP: {} XP: {}".format(self.player.hp, self.player.points)
@@ -280,9 +279,9 @@ class Game():
             command = easygui.buttonbox(text, title=status, choices=rooms)
             rooms.remove("Navi")
             rooms.remove("Inventory")
-            if monsterstext != "":
+            if "Fight" in rooms:
                 rooms.remove("Fight")
-            if boxestext != "":
+            if "Open box" in rooms:
                 rooms.remove("Open box")
             if command == "Navi":
                 self.navi()
