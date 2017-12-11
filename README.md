@@ -3,7 +3,7 @@ adventure / rpg game made in python3 with easygui
 
 ## authors 
 
-BakTheBig, BIGm0, horstjens
+BakTheBig, horstjens
 
 
 ## Features
