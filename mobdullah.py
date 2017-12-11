@@ -597,7 +597,7 @@ class Humane(Monster):
         
         
 
-class Ork(monster):
+class Ork(Monster):
     def __init__(self, room="Wald"):
         Monster.__init__(self, room)
         self.form = "Ork"
