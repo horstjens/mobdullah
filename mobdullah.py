@@ -110,6 +110,7 @@ class Game():
         self.player.max_hp = 200
         self.player.name = easygui.enterbox("What's your name, hero?")
         self.player.points = 0
+        self.player.base_damage =100
         # ---- drinks ---
         Potion(carrier=self.player.number, size="small")
         Potion(carrier=self.player.number, size="medium")
@@ -509,9 +510,12 @@ class Monster():
         
     def __repr__(self):
         return "Monster #{} form: {}\n Strenght: {}\n Dexterity: {}\n HP: {}\n Energy: {}\n".format(self.number, self.form, self.st*"P", self.dex*"D", self.hp*"H", self.e*"e")
-        
 
-class Tiger(Monster):
+
+class Animal(Monster):
+    pass        
+
+class Tiger(Animal):
     
     def __init__(self, room="Wald"):
         Monster.__init__(self, room)
@@ -537,7 +541,7 @@ class Tiger(Monster):
         self.base_defense = 0.6
         self.base_damage = 15
 
-class Spider(Monster):
+class Spider(Animal):
     
     def __init__(self, room="Wald"):
         Monster.__init__(self, room)
@@ -565,10 +569,10 @@ class Spider(Monster):
         self.base_defense = 0.2
         self.base_damage = 1
 
-class Humane(Monster):
+class Human(Monster):
     def __init__(self, room="Wald"):
         Monster.__init__(self, room)
-        self.form = "Humane"
+        self.form = "Human"
         self.hp = random.randint(10,30)
         self.dex = random.randint(15,20)
         self.st = random.randint(2,7)
@@ -621,6 +625,17 @@ class Ork(Human):
         self.base_attack = 0.3
         self.base_defense = 0.2
         self.base_damage = 30
+        
+class Bandit(Human):
+    pass
+    
+    
+    
+    
+    
+    
+class Knight(Human):
+    pass
 
 def gametest():
     #for x in range(5):
