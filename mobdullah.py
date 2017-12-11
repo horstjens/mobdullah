@@ -594,7 +594,33 @@ class Humane(Monster):
         self.base_attack = 0.4
         self.base_defense = 0.3
         self.base_damage = 7
+        
+        
 
+class Ork(monster):
+    def __init__(self, room="Wald"):
+        Monster.__init__(self, room)
+        self.form = "Ork"
+        self.hp = random.randint(20,30)
+        self.dex = random.randint(10,15)
+        self.st = random.randint(9,20)
+        self.e = random.randint(5,10)
+        self.attacks = ["slash", "bite", "kick"]
+        self.slots = {"body":0.6, 
+                      "legs":0.3,
+                      "head":0.1}
+        self.base_armour = {"body":2,
+                            "legs":2,
+                            "head":2}
+        self.attack_malus = {"legs": 0.2,
+                             "head": 0.3, "arms"
+                              }
+        self.defense_malus = {"legs": 0.2, "arms": 0.4
+                              }
+        self.critical = {"head": 0.02}
+        self.base_attack = 0.3
+        self.base_defense = 0.2
+        self.base_damage = 30
 
 def gametest():
     #for x in range(5):
