@@ -565,6 +565,35 @@ class Spider(Monster):
         self.base_defense = 0.2
         self.base_damage = 1
 
+class Humane(Monster):
+    def __init__(self, room="Wald"):
+        Monster.__init__(self, room)
+        self.form = "Humane"
+        self.hp = random.randint(10,30)
+        self.dex = random.randint(15,20)
+        self.st = random.randint(2,7)
+        self.e = random.randint(10,20)
+        self.attacks = ["kick","punch", "Stab"]
+        self.slots = {"body":0.6,
+                      "arms":0.15,
+                      "legs":0.15,
+                      "head":0.1}
+        self.base_armour = {"body":1,
+                            "arms":1,
+                            "legs":1,
+                            "head":1}
+        self.attack_malus = {"legs": 0.1,
+                             "head": 0.1
+                              }
+        self.defense_malus = {"legs": 0.1,
+                              "body": 0.1,
+                              "arms":0.1,
+                              "head":0.1
+                              }
+        self.critical = {"head": 0.4}
+        self.base_attack = 0.4
+        self.base_defense = 0.3
+        self.base_damage = 7
 
 
 def gametest():
