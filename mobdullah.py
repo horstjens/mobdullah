@@ -260,10 +260,12 @@ class Game():
             if itemtext != "":
                 text += "\n\nThese items are here:\n"
                 text += itemtext
-            rooms = []
+            rooms = []    
             if monstercount == 0:    
+                
                 text += "\n\nWhere do you want to go?"
                 rooms = Game.rooms[self.room]
+            
                 if boxestext != "":
                     rooms.append("Open box")
             else:
@@ -358,42 +360,36 @@ class Weapon(Item):
             self.parry = round(random.gauss(0.4, 0.05),3)
             self.damagetype = ["pierce", "slash"]
             
-        elif weapontype == "Claymore":
-            self.name = "Claymore"
-            self.mass = 2.5
-            self.length = 1.4
-            self.parry = 0.1
-            self.damagetype = ["slash", "pierce", "blow"]
+        #elif weapontype == "BattleAxe":
+            #self.name = "BattleAxe"
+            
+            
+        
         elif weapontype == "Zweihänder":
             self.name = "Zweihänder"
             self.mass = round(random.gauss(3.0, 0.33), 1)
             self.length = round(random.gauss(1.7, 0.033), 1)
-            self.parry = 0
-            self.damagetype = ["slash", "pierce", "blow"]
+            self.parry = round(random.gauss(0.5, 0.06), 3)
+            self.damagetype = ("slash") 
         elif weapontype == "Falchion":
             self.name = "Falchion"
             self.mass = round(random.gauss(1, 0.066), 1)
             self.length = round(random.gauss(0.9, 0.033), 1)
-            self.parry = 0
-            self.damagetype = ["slash", "pierce", "blow"]
-        #elif weapontype == "Axe":
-            #self.name = "Axe"
-            #self.name = "BattleAxe"
-            #self.mass = round(random.gauss(
-            #self.length =round(random.gauss
-            #self.quality =random.choice((
-            #self.magicdamage =random.choice((None,None,None,None,"Fire","Cold","Electricity"))
-            #self.length = round(random.gauss(0.95, 0.183), 1)
-            #self.parry =
+            self.parry = round(random.gauss(0.2, 0.033), 3)
+            self.damagetype = ("slash")
+        #elif wepontype == "Spear":
+            #self.name = 
+            #self.mass = 
+            #self.length = 
+            #self.parry = 
+            #self.damagetype =              
             #self.damagetype = ["slash", "blow"]
         elif weapontype == "Mace":
             self.name = "Mace"
-            self.mass = round(random.gauss(1.5, 0.2), 1)
-            self.length = round(random.gauss(1.2, 0.06), 1)
-            self.parry = 0
-            self.damagetype = ["stab", "slash"]
-            
-
+            self.mass = round(random.gauss(1.5, 0.2), 2)
+            self.length = round(random.gauss(1.2, 0.06), 2)
+            self.parry = round(random.gauss(0.15, 0.04), 2)
+            self.damagetype = ["pierce", "blow"]
 class Potion(Item):
     
     def __init__(self, room="Wald", carrier=None, effect="Health", size="medium"):
