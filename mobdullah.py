@@ -613,7 +613,7 @@ class Ork(monster):
                             "legs":2,
                             "head":2}
         self.attack_malus = {"legs": 0.2,
-                             "head": 0.3, "arms"
+                             "head": 0.3, "arms": 0.3
                               }
         self.defense_malus = {"legs": 0.2, "arms": 0.4
                               }
