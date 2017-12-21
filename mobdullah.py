@@ -106,11 +106,10 @@ class Game():
         # create player
         self.player = Monster("Startkerker")
         self.player.form = "human"
-        self.player.hp = 200
-        self.player.max_hp = 200
+        self.player.hp = 20000
+        self.player.max_hp = 20000
         self.player.name = easygui.enterbox("What's your name, hero?")
         self.player.points = 0
-        self.player.base_damage =100
         # ---- drinks ---
         Potion(carrier=self.player.number, size="small")
         Potion(carrier=self.player.number, size="medium")
@@ -136,12 +135,25 @@ class Game():
             if random.random() < 0.3:
                 Box(r)
             # ------ zufallsitems -----
-            if random.random() < 0.4:
-                Item(r)
-            if random.random() < 0.2:
-                Item(r)
-            if random.random() < 0.05:
-                Item(r)
+            #if random.random() < 0.4:
+                #Item(r)
+            #if random.random() < 0.2:
+                #Item(r)
+            #if random.random() < 0.05:
+                #Item(r)
+            #-------__________armor__________----------
+            if random.random() <0.3:
+                Helmet(r)
+            if random.random() <0.3:
+                Chestplate(r)
+            if random.random() <0.3:
+                Boots(r)
+            if random.random() <0.1:
+                Helmet(r)
+            if random.random() <0.1:
+                Chestplate(r)
+            if random.random() <0.1:
+                Boots(r)
         
         self.run()
     
@@ -175,8 +187,15 @@ class Game():
         r = [b for b in Game.boxes if Game.boxes[b].room == self.room]
         for x in r:
             del Game.boxes[x]
-    
-    
+    def equip(self):
+        text = "___equippable items carrid by players___\n"
+        items = [i for i in Game.items.values() if i.room == self.room and i.carrier == 1]
+        for i in items:
+            text += i.__repr__()
+            if i.wearer == 1:
+                text += "(equipped)"
+            text +="\n"
+        return text
     def inventory(self):
         items = [i for i in Game.items.values() if i.carrier == 1]
         #return easygui.choicebox("select item to use", choices=i)
@@ -272,7 +291,7 @@ class Game():
             else:
                 rooms.append("Fight")
             #rooms.append("Navi")
-            rooms.extend(("Navi","Inventory"))
+            rooms.extend(("Navi","Inventory","Equip/unequip"))
             status = "HP: {} XP: {}".format(self.player.hp, self.player.points)
            
             potions = [p for p in Game.items.values() if p.carrier == 1]
@@ -282,12 +301,16 @@ class Game():
             command = easygui.buttonbox(text, title=status, choices=rooms)
             rooms.remove("Navi")
             rooms.remove("Inventory")
+            rooms.remove("Equip/unequip")
             if "Fight" in rooms:
                 rooms.remove("Fight")
             if "Open box" in rooms:
                 rooms.remove("Open box")
             if command == "Navi":
                 self.navi()
+                continue
+            if command == "Equip/unequip":
+                self.equip()
                 continue
             if command == "Fight":
                 self.fight()
@@ -343,9 +366,18 @@ class Item():
         self.text = random.choice(("a piece of dirt", "an old apple", "a little smelly bone", "a half-eaten skull", "a nice round pebble", "a half-eaten programmer", "a dead woman", "a dead man", "a dead child", "a killed troll", "a killed tiger"))
         
     def __repr__(self):
-        text = "Item #{}: {} ({} kg)".format(self.number, self.text, self.mass)
+        text = "Item #{}: {} ({:.1f} kg)".format(self.number, self.text, self.mass)
         return text
+    def equip(self,who):
+        pass
         
+        
+    def unequip(self,who):
+        pass
+        
+        
+        
+    
 class Weapon(Item):
     
     def __init__(self, room="Wald", carrier="None", weapontype="Sword"):
@@ -391,6 +423,126 @@ class Weapon(Item):
             self.length = round(random.gauss(1.2, 0.06), 2)
             self.parry = round(random.gauss(0.15, 0.04), 2)
             self.damagetype = ["pierce", "blow"]
+class Armor(Item):
+        def __init__(self, room="Wald", carrier= None , slot="Body",wearer=None):
+            self.slot =slot
+            self.wearer = wearer
+            self.protection = 1
+            Item.__init__(self, room, carrier)
+            
+        def equip(self,who):
+            self.wearer = who
+            self.equiped = True
+            return "you are wearing now {}".format(self.__repr__)
+            
+        def unequip(self,who):
+            self.wearer = None
+            self.equiped = False
+            return "you are no longer wearing {}".format(self.__repr__)
+            
+class Helmet(Armor):
+    
+    def __init__(self, rooms="Wald",carrier=None,slot="head",wearer=None):
+        Armor.__init__(self,rooms,carrier=None,slot="head",wearer=None)
+        self.material = random.choice(("leather","bronze","iron","steel"))
+        self.form = random.choice(("cap","half helmet","full helmet"))
+        self.deco = random.choice(("colorful","feather","centurio","warrior","barbarian","old","broken","sparkling","glowing"))
+        if self.material =="leather":
+            self.protection +=1
+            self.mass += 0.3
+        elif self.material =="bronze":
+            self.protection += 2
+            self.mass += 0.6
+        elif self.material =="iron":
+            self.protection +=3
+            self.mass += 0.9
+        elif self.material =="steel":
+            self.protection +=4
+            self.mass += 1.2
+        if self.form =="cap":
+            self.protection +=1
+            self.mass +=0.3
+        
+        elif self.form =="half helmet":
+            self.protection +=2
+            self.mass +=0.6
+        
+        elif self.form =="helmet":
+            self.protection +=4
+            self.mass +=1.2
+            
+        self.text=" {} {} {} prot: {:.1f} ".format(self.deco,self.material,self.form,self.protection)
+        
+class Chestplate(Armor):
+    def __init__(self, room,rooms="Wald",carrier=None,slot="body",wearer=None):
+        Armor.__init__(self,rooms,carrier=None,slot="body",wearer=None)
+        self.material = random.choice(("leather","bronze","iron","steel"))
+        self.form = random.choice(("chain","iron",""))
+        self.deco = random.choice(("colorful","feather","centurio","warrior","barbarian","old","broken","sparkling","glowing"))
+        if self.material =="leather":
+            self.protection +=1
+            self.mass += 0.3
+        elif self.material =="bronze":
+            self.protection += 2
+            self.mass += 0.6
+        elif self.material =="iron":
+            self.protection +=3
+            self.mass += 0.9
+        elif self.material =="steel":
+            self.protection +=4
+            self.mass += 1.2
+        if self.form =="ring mail armor":
+            self.protection +=1
+            self.mass +=0.3
+        elif self.form =="banded mail armor":
+            self.protection +=2
+            self.mass +=0.6
+        elif self.form =="half-plate armor":
+            self.protection +=3
+            self.mass +=1
+        elif self.form =="full-plate armor":
+            self.protection +=5
+            self.mass +=1.5
+        
+        self.text=" {} {} {} prot: {:.1f} ".format(self.deco,self.material,self.form,self.protection)
+        
+
+        
+class Boots(Armor):
+    def __init__(self, rooms="Wald",carrier=None,slot="legs",wearer=None):
+        Armor.__init__(self,rooms,carrier=None,slot="legs",wearer=None)
+        self.material = random.choice(("leather","bronze","iron","steel"))
+        self.form = random.choice(("normal Boots", "fancy boots"))
+        self.deco = random.choice(("colorful","feather","centurio","warrior","barbarian","old","broken","sparkling","glowing"))
+        if self.material =="leather boots":
+            self.protection +=1
+            self.mass += 0.3
+        elif self.material =="bronze":
+            self.protection += 2
+            self.mass += 0.6
+        elif self.material =="iron":
+            self.protection +=3
+            self.mass += 0.9
+        elif self.material =="steel":
+            self.protection +=4
+            self.mass += 1.2
+        if self.form =="normal Boots":
+            self.protection +=1.5
+            self.mass +=0.4
+        
+        
+        self.text=" {} {} {} prot: {:.1f} ".format(self.deco,self.material,self.form,self.protection)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+            
+            #self.anti damage typ
 class Potion(Item):
     
     def __init__(self, room="Wald", carrier=None, effect="Health", size="medium"):
@@ -501,20 +653,20 @@ class Monster():
         self.defense_malus = {"legs": 0.1,
                               "arms": 0.4 }
         self.critical = {"head": 0.02}
-        self.base_attack = 0.7
-        self.base_defense = 0.4
-        self.base_damage = 5
+        self.base_attack = 500000
+        self.base_defense = 50000
+        self.base_damage = 50000
         self.attacks = ["punch", "kick", "bite"]
         
         
         
     def __repr__(self):
         return "Monster #{} form: {}\n Strenght: {}\n Dexterity: {}\n HP: {}\n Energy: {}\n".format(self.number, self.form, self.st*"P", self.dex*"D", self.hp*"H", self.e*"e")
-
-
+        
 class Animal(Monster):
-    pass        
-
+    pass
+    
+    
 class Tiger(Animal):
     
     def __init__(self, room="Wald"):
@@ -617,7 +769,8 @@ class Ork(Human):
                             "legs":2,
                             "head":2}
         self.attack_malus = {"legs": 0.2,
-                             "head": 0.3, "arms": 0.3
+                             "head": 0.3,
+                             "arms":0.3
                               }
         self.defense_malus = {"legs": 0.2, "arms": 0.4
                               }
@@ -625,17 +778,13 @@ class Ork(Human):
         self.base_attack = 0.3
         self.base_defense = 0.2
         self.base_damage = 30
-        
 class Bandit(Human):
     pass
     
     
-    
-    
-    
-    
-class Knight(Human):
+class knight(Human):
     pass
+    
 
 def gametest():
     #for x in range(5):
