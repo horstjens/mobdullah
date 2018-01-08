@@ -106,8 +106,8 @@ class Game():
         # create player
         self.player = Monster("Startkerker")
         self.player.form = "human"
-        self.player.hp = 20000
-        self.player.max_hp = 20000
+        self.player.hp = 200
+        self.player.max_hp = 300
         self.player.name = easygui.enterbox("What's your name, hero?")
         self.player.points = 0
         # ---- drinks ---
@@ -653,9 +653,9 @@ class Monster():
         self.defense_malus = {"legs": 0.1,
                               "arms": 0.4 }
         self.critical = {"head": 0.02}
-        self.base_attack = 500000
-        self.base_defense = 50000
-        self.base_damage = 50000
+        self.base_attack = 15
+        self.base_defense = 15
+        self.base_damage = 20
         self.attacks = ["punch", "kick", "bite"]
         
         
@@ -672,7 +672,7 @@ class Tiger(Animal):
     def __init__(self, room="Wald"):
         Monster.__init__(self, room)
         self.form = "Tiger"
-        self.hp = random.randint(20,30)
+        self.hp = random.randint(25,45)
         self.dex = random.randint(10,15)
         self.st = random.randint(9,20)
         self.e = random.randint(5,10)
@@ -689,16 +689,16 @@ class Tiger(Animal):
         self.defense_malus = {"legs": 0.2,
                               }
         self.critical = {"head": 0.02}
-        self.base_attack = 0.9
+        self.base_attack = 30
         self.base_defense = 0.6
-        self.base_damage = 15
+        self.base_damage = 30
 
 class Spider(Animal):
     
     def __init__(self, room="Wald"):
         Monster.__init__(self, room)
         self.form = "Spider"
-        self.hp = random.randint(1,5)
+        self.hp = random.randint(15,30)
         self.dex = random.randint(20,30)
         self.st = 1
         self.e = random.randint(10,15)
@@ -717,15 +717,15 @@ class Spider(Animal):
         self.defense_malus = {"legs": 0.05,
                               "arms": 0.0 }
         self.critical = {"head": 0.02}
-        self.base_attack = 0.5
+        self.base_attack = 15
         self.base_defense = 0.2
-        self.base_damage = 1
+        self.base_damage = 15
 
 class Human(Monster):
     def __init__(self, room="Wald"):
         Monster.__init__(self, room)
         self.form = "Human"
-        self.hp = random.randint(10,30)
+        self.hp = random.randint(20,40)
         self.dex = random.randint(15,20)
         self.st = random.randint(2,7)
         self.e = random.randint(10,20)
@@ -747,9 +747,9 @@ class Human(Monster):
                               "head":0.1
                               }
         self.critical = {"head": 0.4}
-        self.base_attack = 0.4
+        self.base_attack = 20
         self.base_defense = 0.3
-        self.base_damage = 7
+        self.base_damage = 20
         
         
 
@@ -757,7 +757,7 @@ class Ork(Human):
     def __init__(self, room="Wald"):
         Monster.__init__(self, room)
         self.form = "Ork"
-        self.hp = random.randint(20,30)
+        self.hp = random.randint(50,70)
         self.dex = random.randint(10,15)
         self.st = random.randint(9,20)
         self.e = random.randint(5,10)
