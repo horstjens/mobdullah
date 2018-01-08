@@ -532,6 +532,31 @@ class Boots(Armor):
         
         
         self.text=" {} {} {} prot: {:.1f} ".format(self.deco,self.material,self.form,self.protection)
+        
+        
+        
+    
+class Gloves(Armor):
+    def __init__(self, room="Wald", carrier=None, slot="gloves", wearer = None ):
+        Armor.__init__(self, room, carrier = None, slot = "gloves", wearer = None)
+        self.material = random.choice(("leather", "bronze", "iron", "steel"))
+        self.form = random.choice(("gloves", "gloves"))
+        self.deco = random.choice(("colorfull", "feather", "centurio", "warrior", "elite-warrior", "barbarian"))
+        if self.material == "leather":
+            self.protection += 0.4
+            self.mass += 0.4
+        elif self.material == "bronze":
+            self.protection += 0.7
+            self.mass += 0.7
+        elif self.material == "iron":
+            self.protection += 1
+            self.mass += 1
+        elif self.material == "steel":
+            self.protection += 2
+            self.mass += 2
+        if self.form == "gloves":
+            self.protection += 0.5
+            self.mass += 0.5
     
     
     
