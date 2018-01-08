@@ -714,9 +714,9 @@ class Tiger(Animal):
         self.defense_malus = {"legs": 0.2,
                               }
         self.critical = {"head": 0.02}
-        self.base_attack = 30
-        self.base_defense = 0.6
-        self.base_damage = 30
+        self.base_attack = 0.5
+        self.base_defense = 0.2
+        self.base_damage = 15
 
 class Spider(Animal):
     
@@ -742,9 +742,9 @@ class Spider(Animal):
         self.defense_malus = {"legs": 0.05,
                               "arms": 0.0 }
         self.critical = {"head": 0.02}
-        self.base_attack = 15
+        self.base_attack = 1
         self.base_defense = 0.2
-        self.base_damage = 15
+        self.base_damage = 2
 
 class Human(Monster):
     def __init__(self, room="Wald"):
@@ -828,3 +828,4 @@ if __name__ == "__main__":
 
         
     
+                
