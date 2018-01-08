@@ -654,7 +654,7 @@ class Monster():
                               "arms": 0.4 }
         self.critical = {"head": 0.02}
         self.base_attack = 15
-        self.base_defense = 15
+        self.base_defense = 0.1
         self.base_damage = 20
         self.attacks = ["punch", "kick", "bite"]
         
